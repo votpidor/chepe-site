@@ -1,4 +1,144 @@
 const contractButton = document.querySelector(".contract-value");
+const statMarketCap = document.querySelector("[data-stat-mcap]");
+const statHolders = document.querySelector("[data-stat-holders]");
+const statAge = document.querySelector("[data-stat-age]");
+const statDevBalance = document.querySelector("[data-stat-dev-balance]");
+const topWallets = document.querySelector("[data-top-wallets]");
+
+const tokenDeployTimestamp = 1779697837;
+const tokenTotalSupply = 100000000;
+const tokenSupplyRaw = BigInt(tokenTotalSupply) * 1000000000n;
+
+function formatMarketCap(value) {
+  if (!Number.isFinite(value)) {
+    return "--";
+  }
+
+  const formatter = new Intl.NumberFormat("en-US", {
+    maximumFractionDigits: value >= 1000000 ? 1 : 0,
+    notation: value >= 1000000 ? "compact" : "standard",
+  });
+
+  return `$${formatter.format(value)}`;
+}
+
+async function loadTokenStats() {
+  try {
+    const [dexData, jettonData, devData] = await Promise.all([
+      requestJson(
+        "https://api.dexscreener.com/latest/dex/pairs/ton/eqdhqtk_seftl95gj3ciukmkwnoog_i-bdv9jzrbovb7rshe",
+      ),
+      requestJson("https://tonapi.io/v2/jettons/EQBxjNmwpTzSMDI6-_X2ad78fwnvZXxdHSzNyx_0wl5n24S5"),
+      requestJson("https://tonapi.io/v2/accounts/0:0edd4b475d9340d8c1c8427804f841fd09a766bd8302c0d95181392dd55e9948"),
+    ]);
+    const pair = dexData.pair ?? dexData.pairs?.[0];
+    const priceUsd = Number(pair?.priceUsd);
+    const marketCap = pair?.marketCap ?? pair?.fdv ?? priceUsd * tokenTotalSupply;
+
+    if (statMarketCap) {
+      statMarketCap.textContent = formatMarketCap(marketCap);
+    }
+
+    if (statHolders && jettonData.holders_count) {
+      statHolders.textContent = new Intl.NumberFormat("en-US").format(jettonData.holders_count);
+    }
+
+    if (statAge) {
+      statAge.textContent = formatTokenAgeShort(tokenDeployTimestamp);
+    }
+
+    if (statDevBalance && Number.isFinite(devData.balance)) {
+      statDevBalance.textContent = `${formatTonBalance(devData.balance)} TON`;
+    }
+  } catch {
+    if (statAge) {
+      statAge.textContent = formatTokenAgeShort(tokenDeployTimestamp);
+    }
+  }
+}
+
+loadTokenStats();
+
+async function loadTopHolders() {
+  if (!topWallets) {
+    return;
+  }
+
+  try {
+    const holderData = await requestJson(
+      "https://tonapi.io/v2/jettons/EQBxjNmwpTzSMDI6-_X2ad78fwnvZXxdHSzNyx_0wl5n24S5/holders?limit=40&offset=0",
+    );
+    const wallets = (holderData.addresses ?? [])
+      .filter((holder) => holder.owner?.is_wallet)
+      .slice(0, 10);
+    const items = wallets.map(
+      (wallet, index) => `<strong><em>${index + 1}</em> ${formatHolderPercent(wallet.balance)}</strong>`,
+    );
+
+    topWallets.innerHTML = `<span>Top wallets</span>${items.join("")}`;
+  } catch {
+    // Keep the static fallback values if the public API is not reachable.
+  }
+}
+
+loadTopHolders();
+
+function formatTokenAge(timestamp) {
+  const diff = Date.now() - timestamp * 1000;
+  const days = Math.max(0, Math.floor(diff / 86400000));
+
+  if (days < 1) {
+    return "Today";
+  }
+
+  return `${days} day${days === 1 ? "" : "s"}`;
+}
+
+function formatTokenAgeShort(timestamp) {
+  const diff = Date.now() - timestamp * 1000;
+  const days = Math.max(0, Math.floor(diff / 86400000));
+
+  if (days < 1) {
+    return "Today";
+  }
+
+  return `${days}d`;
+}
+
+function formatTonBalance(nanoTons) {
+  return new Intl.NumberFormat("en-US", {
+    maximumFractionDigits: 3,
+  }).format(nanoTons / 1000000000);
+}
+
+function formatHolderPercent(rawBalance) {
+  const percent = (Number(BigInt(rawBalance) * 10000n / tokenSupplyRaw) / 100).toFixed(2);
+
+  return `${percent}%`;
+}
+
+function requestJson(url) {
+  if (typeof fetch === "function") {
+    return fetch(url).then((response) => response.json());
+  }
+
+  return new Promise((resolve, reject) => {
+    const request = new XMLHttpRequest();
+    request.open("GET", url);
+    request.responseType = "json";
+
+    request.onload = () => {
+      if (request.status >= 200 && request.status < 300) {
+        resolve(request.response ?? JSON.parse(request.responseText));
+      } else {
+        reject(new Error(`Request failed with ${request.status}`));
+      }
+    };
+
+    request.onerror = reject;
+    request.send();
+  });
+}
 
 function copyText(value) {
   if (navigator.clipboard?.writeText) {
