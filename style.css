@@ -141,12 +141,19 @@ a {
   text-align: center;
 }
 
+.hero-notice-wrap {
+  position: relative;
+  width: min(92%, 950px);
+  min-height: 92px;
+  margin: 0 auto 34px;
+}
+
 .pill {
   display: inline-flex;
   min-height: 44px;
   align-items: center;
   justify-content: center;
-  margin: 0 0 62px;
+  margin: 0;
   padding: 0;
   border-radius: 999px;
   background: transparent;
@@ -154,6 +161,25 @@ a {
   font-size: 17px;
   font-weight: 900;
   text-shadow: 0 3px 10px rgba(7, 11, 32, 0.36);
+}
+
+.hero-notice {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 16px 34px;
+  border-radius: 18px;
+  background: #ff3b3b;
+  color: #ffffff;
+  font-size: clamp(13px, 1.55vw, 18px);
+  font-weight: 900;
+  line-height: 1.18;
+  text-align: center;
+  transform: rotate(-4deg);
+  box-shadow: 0 18px 34px rgba(255, 59, 59, 0.26);
 }
 
 .hero-logo {
@@ -668,9 +694,22 @@ a {
 
   .pill {
     min-height: 38px;
-    margin: 0 0 42px;
+    margin: 0;
     padding: 0;
     font-size: 14px;
+  }
+
+  .hero-notice-wrap {
+    width: min(100%, 560px);
+    min-height: 132px;
+    margin-bottom: 20px;
+  }
+
+  .hero-notice {
+    padding: 14px 18px;
+    border-radius: 16px;
+    font-size: 12px;
+    transform: rotate(-3deg);
   }
 
   .hero-logo {
