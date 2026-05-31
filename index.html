@@ -21,9 +21,13 @@
         </a>
 
         <nav class="topnav" aria-label="Main navigation">
-          <a href="#about">About</a>
+          <a href="#lore">About</a>
           <a href="#stickers">Stickers</a>
-          <a href="#buy">Buy</a>
+          <a href="https://t.me/dtrade?start=26STWuUm8m_EQBxjNmwpTzSMDI6-_X2ad78fwnvZXxdHSzNyx_0wl5n24S5" target="_blank" rel="noreferrer">
+            Buy <span>DTrade</span>
+          </a>
+          <a href="#chart">Chart</a>
+          <a href="#cheperator-bot">Cheperator Bot</a>
         </nav>
 
         <a class="connect-button" href="https://t.me/chepechat" target="_blank" rel="noreferrer">
@@ -59,13 +63,23 @@
           </button>
         </section>
 
-        <div class="stats" aria-label="CHEPE promises">
-          <span>No Taxes</span>
-          <span>No Promises</span>
-          <span>Only Chepe</span>
-        </div>
+        <section class="chart-card lore-card" id="lore" aria-label="CHEPE lore teaser">
+          <h2>Lore</h2>
+          <div class="video-frame">
+            <video poster="assets/video_cover.jpg" preload="metadata" playsinline>
+              <source src="assets/teaser.mp4" type="video/mp4" />
+            </video>
+            <button class="video-play-button" type="button" aria-label="Play lore video">
+              <span></span>
+            </button>
+          </div>
+        </section>
 
-        <section class="chart-card" aria-label="CHEPE live chart">
+        <section class="chart-card bot-card" id="cheperator-bot" aria-label="CHEPE Cheperator Bot">
+          <h2>Cheperator Bot</h2>
+        </section>
+
+        <section class="chart-card" id="chart" aria-label="CHEPE live chart">
           <h2>Live Chart</h2>
           <div class="chart-frame">
             <iframe
@@ -73,15 +87,6 @@
               src="https://dexscreener.com/ton/eqdhqtk_seftl95gj3ciukmkwnoog_i-bdv9jzrbovb7rshe?embed=1&theme=dark&trades=0&info=0"
               loading="lazy"
             ></iframe>
-          </div>
-        </section>
-
-        <section class="chart-card lore-card" aria-label="CHEPE lore teaser">
-          <h2>Lore</h2>
-          <div class="video-frame">
-            <video controls preload="metadata" playsinline>
-              <source src="assets/teaser.mp4" type="video/mp4" />
-            </video>
           </div>
         </section>
 
@@ -109,6 +114,6 @@
       </section>
     </main>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=20260531-1845"></script>
   </body>
 </html>

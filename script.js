@@ -42,6 +42,35 @@ if (contractButton) {
   });
 }
 
+const loreVideoFrame = document.querySelector(".video-frame");
+const loreVideo = loreVideoFrame?.querySelector("video");
+const lorePlayButton = loreVideoFrame?.querySelector(".video-play-button");
+
+if (loreVideoFrame && loreVideo && lorePlayButton) {
+  lorePlayButton.addEventListener("click", () => {
+    loreVideo.controls = true;
+    loreVideoFrame.classList.add("is-playing");
+    loreVideo.play().catch(() => {
+      loreVideo.controls = true;
+    });
+  });
+
+  loreVideo.addEventListener("click", () => {
+    loreVideo.controls = true;
+  });
+
+  loreVideo.addEventListener("play", () => {
+    loreVideoFrame.classList.add("is-playing");
+    loreVideo.controls = true;
+  });
+
+  loreVideo.addEventListener("pause", () => {
+    if (loreVideo.currentTime === 0 || loreVideo.ended) {
+      loreVideoFrame.classList.remove("is-playing");
+    }
+  });
+}
+
 const memeIds = [
   1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19, 21, 22,
   23, 24, 25, 26, 27, 28, 29, 30, 32, 33, 34, 35, 38, 39, 40, 41, 42, 43,

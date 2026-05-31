@@ -97,9 +97,17 @@ a {
 }
 
 .topnav {
-  gap: 30px;
+  gap: 24px;
   font-size: 16px;
   font-weight: 900;
+}
+
+.topnav a {
+  white-space: nowrap;
+}
+
+.topnav span {
+  opacity: 0.5;
 }
 
 .connect-button {
@@ -216,11 +224,12 @@ a {
 }
 
 .contract-value {
-  display: flex;
+  position: relative;
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr) 72px;
   width: 100%;
   min-height: 58px;
   align-items: center;
-  justify-content: center;
   gap: 18px;
   border: 0;
   border-radius: 18px;
@@ -236,6 +245,7 @@ a {
 }
 
 .contract-value span {
+  grid-column: 2;
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -244,30 +254,9 @@ a {
 }
 
 .contract-value strong {
-  position: absolute;
-  right: 22px;
-  flex: 0 0 auto;
+  grid-column: 3;
+  justify-self: end;
   color: #ffffff;
-  text-transform: uppercase;
-}
-
-.stats {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 18px;
-  margin-bottom: 48px;
-}
-
-.stats span {
-  min-width: 220px;
-  padding: 24px 30px;
-  border-radius: 24px;
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 20px 42px rgba(54, 74, 86, 0.15);
-  font-size: 18px;
-  font-weight: 900;
-  text-align: left;
   text-transform: uppercase;
 }
 
@@ -339,6 +328,7 @@ a {
 
 .video-frame,
 .stickers-frame {
+  position: relative;
   overflow: hidden;
   border-radius: 24px;
   background: #070b20;
@@ -349,6 +339,38 @@ a {
   width: 100%;
   aspect-ratio: 16 / 9;
   object-fit: cover;
+}
+
+.video-play-button {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.video-play-button span {
+  width: 0;
+  height: 0;
+  margin-left: 12px;
+  border-top: 44px solid transparent;
+  border-bottom: 44px solid transparent;
+  border-left: 72px solid #b8ff4d;
+  filter: drop-shadow(0 12px 18px rgba(7, 11, 32, 0.26));
+  transition:
+    transform 160ms ease,
+    filter 160ms ease;
+}
+
+.video-play-button:hover span {
+  transform: scale(1.08);
+  filter: drop-shadow(0 16px 24px rgba(7, 11, 32, 0.34));
+}
+
+.video-frame.is-playing .video-play-button {
+  display: none;
 }
 
 .fan-art-grid {
@@ -442,12 +464,6 @@ a {
     padding: 0 16px;
   }
 
-  .stats span {
-    width: 100%;
-    min-width: 0;
-    text-align: center;
-  }
-
   .chart-card {
     padding: 18px;
     border-radius: 24px;
@@ -481,6 +497,13 @@ a {
   .video-frame,
   .stickers-frame {
     border-radius: 18px;
+  }
+
+  .video-play-button span {
+    margin-left: 8px;
+    border-top-width: 30px;
+    border-bottom-width: 30px;
+    border-left-width: 50px;
   }
 
   .fan-art-grid {
