@@ -24,16 +24,19 @@ function formatMarketCap(value) {
 
 async function loadTokenStats() {
   try {
-    const [dexData, jettonData, devData] = await Promise.all([
+    const [dexData, geckoData, jettonData, devData, poolData, tonRateData] = await Promise.all([
       requestJson(
         "https://api.dexscreener.com/latest/dex/pairs/ton/eqdhqtk_seftl95gj3ciukmkwnoog_i-bdv9jzrbovb7rshe",
       ),
+      requestJson(
+        "https://api.geckoterminal.com/api/v2/networks/ton/pools/EQDhQtK_SEFTL95gJ3CiukMKWnOog_i-bDV9JzRBoVB7RshE",
+      ),
       requestJson("https://tonapi.io/v2/jettons/EQBxjNmwpTzSMDI6-_X2ad78fwnvZXxdHSzNyx_0wl5n24S5"),
       requestJson("https://tonapi.io/v2/accounts/0:0edd4b475d9340d8c1c8427804f841fd09a766bd8302c0d95181392dd55e9948"),
+      requestJson("https://tonapi.io/v2/blockchain/accounts/0:989693bf00fd01f924f18995a5f29ebc12928d6549836dd9fa08e9f2c529c8ff/methods/get_pool_data"),
+      requestJson("https://tonapi.io/v2/rates?tokens=ton&currencies=usd"),
     ]);
-    const pair = dexData.pair ?? dexData.pairs?.[0];
-    const priceUsd = Number(pair?.priceUsd);
-    const marketCap = pair?.marketCap ?? pair?.fdv ?? priceUsd * tokenTotalSupply;
+    const marketCap = resolveMarketCap(dexData, geckoData, poolData, tonRateData);
 
     if (statMarketCap) {
       statMarketCap.textContent = formatMarketCap(marketCap);
@@ -59,6 +62,43 @@ async function loadTokenStats() {
 
 loadTokenStats();
 
+function resolveMarketCap(dexData, geckoData, poolData, tonRateData) {
+  const pair = dexData.pair ?? dexData.pairs?.[0];
+  const dexMarketCap = Number(pair?.marketCap ?? pair?.fdv);
+
+  if (Number.isFinite(dexMarketCap) && dexMarketCap > 0) {
+    return dexMarketCap;
+  }
+
+  const dexPriceUsd = Number(pair?.priceUsd);
+
+  if (Number.isFinite(dexPriceUsd) && dexPriceUsd > 0) {
+    return dexPriceUsd * tokenTotalSupply;
+  }
+
+  const geckoMarketCap = Number(geckoData.data?.attributes?.market_cap_usd ?? geckoData.data?.attributes?.fdv_usd);
+
+  if (Number.isFinite(geckoMarketCap) && geckoMarketCap > 0) {
+    return geckoMarketCap;
+  }
+
+  const geckoPriceUsd = Number(geckoData.data?.attributes?.base_token_price_usd);
+
+  if (Number.isFinite(geckoPriceUsd) && geckoPriceUsd > 0) {
+    return geckoPriceUsd * tokenTotalSupply;
+  }
+
+  const reserveToken = Number(poolData.decoded?.reserve_x) / 1000000000;
+  const reserveTon = Number(poolData.decoded?.reserve_y) / 1000000000;
+  const tonUsd = Number(tonRateData.rates?.TON?.prices?.USD);
+
+  if (reserveToken > 0 && reserveTon > 0 && tonUsd > 0) {
+    return (reserveTon / reserveToken) * tonUsd * tokenTotalSupply;
+  }
+
+  return Number.NaN;
+}
+
 async function loadTopHolders() {
   if (!topWallets) {
     return;
@@ -70,7 +110,7 @@ async function loadTopHolders() {
     );
     const wallets = (holderData.addresses ?? [])
       .filter((holder) => holder.owner?.is_wallet)
-      .slice(0, 10);
+      .slice(0, 13);
     const items = wallets.map(
       (wallet, index) => `<strong><em>${index + 1}</em> ${formatHolderPercent(wallet.balance)}</strong>`,
     );
