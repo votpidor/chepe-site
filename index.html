@@ -7,36 +7,108 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <video class="background-video" autoplay muted loop playsinline>
+      <source src="assets/background.mp4?v=20260531-1801" type="video/mp4" />
+    </video>
+
     <main class="page">
-      <video class="background-video" autoplay muted loop playsinline>
-        <source src="assets/background.mp4" type="video/mp4" />
-      </video>
+      <header class="topbar">
+        <a class="brand" href="#" aria-label="CHEPE home">
+          <span class="brand-mark">
+            <img src="assets/head_logo.png" alt="" />
+          </span>
+          <span>$CHEPE</span>
+        </a>
 
-      <div class="overlay"></div>
+        <nav class="topnav" aria-label="Main navigation">
+          <a href="#about">About</a>
+          <a href="#stickers">Stickers</a>
+          <a href="#buy">Buy</a>
+        </nav>
 
-      <section class="profile" aria-label="CHEPE links">
-        <div class="logo">CH</div>
-        <p class="eyebrow">CHEPE</p>
-        <h1>CHEPE</h1>
-        <p class="description">
-          Music, visuals, updates and links in one place.
-        </p>
+        <a class="connect-button" href="https://t.me/chepechat" target="_blank" rel="noreferrer">
+          Connect ↗
+        </a>
+      </header>
 
-        <nav class="links" aria-label="Social links">
-          <a href="https://t.me/" target="_blank" rel="noreferrer">
-            <span>Telegram</span>
+      <section class="hero" id="about" aria-label="CHEPE hero">
+        <p class="pill">✦ The mistake that becomes a cult on TON</p>
+
+        <img class="hero-logo" src="assets/logo.svg" alt="CHEPE" />
+
+        <nav class="actions" aria-label="CHEPE links">
+          <a class="button button-dark" href="https://dexscreener.com/ton/eqdhqtk_seftl95gj3ciukmkwnoog_i-bdv9jzrbovb7rshe" target="_blank" rel="noreferrer">
+            Buy $CHEPE ↗
           </a>
-          <a href="https://instagram.com/" target="_blank" rel="noreferrer">
-            <span>Instagram</span>
+          <a class="button button-accent" href="https://t.me/chepechat" target="_blank" rel="noreferrer">
+            Join Telegram ↗
           </a>
-          <a href="https://youtube.com/" target="_blank" rel="noreferrer">
-            <span>YouTube</span>
+          <a class="button button-dark" href="https://x.com/chepeonton" target="_blank" rel="noreferrer">
+            X Twitter ↗
           </a>
-          <a href="https://tiktok.com/" target="_blank" rel="noreferrer">
-            <span>TikTok</span>
+          <a class="button button-dark" href="https://dexscreener.com/ton/eqdhqtk_seftl95gj3ciukmkwnoog_i-bdv9jzrbovb7rshe" target="_blank" rel="noreferrer">
+            Dex Screener ↗
           </a>
         </nav>
+
+        <section class="contract-card" aria-label="TON contract">
+          <p>TON Contract</p>
+          <button class="contract-value" type="button" data-contract="EQBxjNmwpTzSMDI6-_X2ad78fwnvZXxdHSzNyx_0wl5n24S5">
+            <span>EQBxjNmwpTzSMDI6-_X2ad78fwnvZXxdHSzNyx_0wl5n24S5</span>
+            <strong>Copy</strong>
+          </button>
+        </section>
+
+        <div class="stats" aria-label="CHEPE promises">
+          <span>No Taxes</span>
+          <span>No Promises</span>
+          <span>Only Chepe</span>
+        </div>
+
+        <section class="chart-card" aria-label="CHEPE live chart">
+          <h2>Live Chart</h2>
+          <div class="chart-frame">
+            <iframe
+              title="CHEPE live chart on Dex Screener"
+              src="https://dexscreener.com/ton/eqdhqtk_seftl95gj3ciukmkwnoog_i-bdv9jzrbovb7rshe?embed=1&theme=dark&trades=0&info=0"
+              loading="lazy"
+            ></iframe>
+          </div>
+        </section>
+
+        <section class="chart-card lore-card" aria-label="CHEPE lore teaser">
+          <h2>Lore</h2>
+          <div class="video-frame">
+            <video controls preload="metadata" playsinline>
+              <source src="assets/teaser.mp4" type="video/mp4" />
+            </video>
+          </div>
+        </section>
+
+        <section class="chart-card fan-art-card" aria-label="CHEPE community fan art">
+          <div class="section-heading">
+            <h2>Community Fan Art</h2>
+            <a href="https://x.com/chepeonton" target="_blank" rel="noreferrer">By Cheperator</a>
+          </div>
+          <div class="fan-art-grid" aria-label="Random CHEPE meme gallery">
+            <div class="fan-art-tile"><img src="assets/memes/meme_1.jpg" alt="CHEPE community art" /></div>
+            <div class="fan-art-tile"><img src="assets/memes/meme_2.jpg" alt="CHEPE community art" /></div>
+            <div class="fan-art-tile"><img src="assets/memes/meme_3.jpg" alt="CHEPE community art" /></div>
+            <div class="fan-art-tile"><img src="assets/memes/meme_4.jpg" alt="CHEPE community art" /></div>
+            <div class="fan-art-tile"><img src="assets/memes/meme_5.jpg" alt="CHEPE community art" /></div>
+            <div class="fan-art-tile"><img src="assets/memes/meme_6.jpg" alt="CHEPE community art" /></div>
+          </div>
+        </section>
+
+        <section class="chart-card stickers-card" id="stickers" aria-label="CHEPE Telegram stickers">
+          <h2>Telegram Stickers</h2>
+          <div class="stickers-frame">
+            <img src="assets/stickers.jpg" alt="CHEPE Telegram stickers" />
+          </div>
+        </section>
       </section>
     </main>
+
+    <script src="script.js"></script>
   </body>
 </html>
