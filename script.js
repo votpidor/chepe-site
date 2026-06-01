@@ -4,6 +4,8 @@ const statHolders = document.querySelector("[data-stat-holders]");
 const statAge = document.querySelector("[data-stat-age]");
 const statDevBalance = document.querySelector("[data-stat-dev-balance]");
 const topWallets = document.querySelector("[data-top-wallets]");
+const milestoneHidden = document.querySelector("[data-milestone-hidden]");
+const milestoneToggle = document.querySelector("[data-milestone-toggle]");
 
 const tokenDeployTimestamp = 1779697837;
 const tokenTotalSupply = 100000000;
@@ -122,6 +124,13 @@ async function loadTopHolders() {
 }
 
 loadTopHolders();
+
+if (milestoneHidden && milestoneToggle) {
+  milestoneToggle.addEventListener("click", () => {
+    const isOpen = milestoneHidden.classList.toggle("is-open");
+    milestoneToggle.textContent = isOpen ? "Hide middle" : "Show full diary";
+  });
+}
 
 function formatTokenAge(timestamp) {
   const diff = Date.now() - timestamp * 1000;
