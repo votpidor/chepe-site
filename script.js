@@ -6,6 +6,7 @@ const statDevBalance = document.querySelector("[data-stat-dev-balance]");
 const topWallets = document.querySelector("[data-top-wallets]");
 const milestoneHidden = document.querySelector("[data-milestone-hidden]");
 const milestoneToggle = document.querySelector("[data-milestone-toggle]");
+const accordionCards = [...document.querySelectorAll("[data-accordion-card]")];
 
 const tokenDeployTimestamp = 1779697837;
 const tokenTotalSupply = 100000000;
@@ -124,6 +125,34 @@ async function loadTopHolders() {
 }
 
 loadTopHolders();
+
+function setOpenAccordion(cardToOpen) {
+  accordionCards.forEach((card) => {
+    card.classList.toggle("is-open", card === cardToOpen);
+  });
+}
+
+if (accordionCards.length) {
+  const hashCard = accordionCards.find((card) => `#${card.id}` === window.location.hash);
+  setOpenAccordion(hashCard ?? accordionCards[0]);
+
+  accordionCards.forEach((card) => {
+    const toggle = card.querySelector("[data-accordion-toggle]");
+
+    toggle?.addEventListener("click", () => {
+      const shouldClose = card.classList.contains("is-open");
+      setOpenAccordion(shouldClose ? null : card);
+    });
+  });
+
+  window.addEventListener("hashchange", () => {
+    const activeCard = accordionCards.find((card) => `#${card.id}` === window.location.hash);
+
+    if (activeCard) {
+      setOpenAccordion(activeCard);
+    }
+  });
+}
 
 if (milestoneHidden && milestoneToggle) {
   milestoneToggle.addEventListener("click", () => {

@@ -1164,6 +1164,66 @@ a {
   color: #4299f5;
 }
 
+.accordion-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+  text-transform: inherit;
+}
+
+.accordion-title::after {
+  content: "+";
+  display: inline-grid;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 50%;
+  background: #070b20;
+  color: #fff58a;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.accordion-card.is-open .accordion-title::after {
+  content: "-";
+}
+
+.accordion-content {
+  display: block;
+  max-height: 2600px;
+  overflow: hidden;
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    max-height 520ms ease,
+    opacity 260ms ease,
+    transform 360ms ease;
+}
+
+.accordion-card:not(.is-open) {
+  padding-top: 22px;
+  padding-bottom: 22px;
+}
+
+.accordion-card:not(.is-open) h2,
+.accordion-card:not(.is-open) .section-heading {
+  margin-bottom: 0;
+}
+
+.accordion-card:not(.is-open) .accordion-content {
+  max-height: 0;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-8px);
+}
+
 .chart-card h2::before {
   content: "";
   display: inline-block;
