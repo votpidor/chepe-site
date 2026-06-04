@@ -7,6 +7,17 @@ const topWallets = document.querySelector("[data-top-wallets]");
 const milestoneHidden = document.querySelector("[data-milestone-hidden]");
 const milestoneToggle = document.querySelector("[data-milestone-toggle]");
 const accordionCards = [...document.querySelectorAll("[data-accordion-card]")];
+const heroLogo = document.querySelector("#heroLogo");
+
+const heroLogos = [
+  "assets/headlogo/1.png",
+  "assets/headlogo/2.png",
+];
+
+if (heroLogo && heroLogos.length) {
+  const logoIndex = Math.floor(Math.random() * heroLogos.length);
+  heroLogo.src = heroLogos[logoIndex];
+}
 
 const tokenDeployTimestamp = 1779697837;
 const tokenTotalSupply = 100000000;
@@ -134,7 +145,7 @@ function setOpenAccordion(cardToOpen) {
 
 if (accordionCards.length) {
   const hashCard = accordionCards.find((card) => `#${card.id}` === window.location.hash);
-  setOpenAccordion(hashCard ?? accordionCards[0]);
+  setOpenAccordion(hashCard ?? null);
 
   accordionCards.forEach((card) => {
     const toggle = card.querySelector("[data-accordion-toggle]");
