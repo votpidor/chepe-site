@@ -522,14 +522,40 @@ a {
 }
 
 
-.hero-logo {
+.hero-logo-wrap {
+  position: relative;
   display: block;
   width: min(130%, 1248px);
   max-height: 338px;
   margin: 0 auto;
-  object-fit: contain;
-  filter: drop-shadow(0 18px 22px rgba(7, 11, 32, 0.14));
   transform: translate(0, -16px);
+  overflow: hidden;
+  animation: heroLogoFloat 5.8s ease-in-out infinite;
+}
+
+.hero-logo {
+  display: block;
+  width: 100%;
+  max-height: 338px;
+  object-fit: contain;
+  opacity: 1;
+  transition: opacity 260ms ease, transform 260ms ease;
+}
+
+.hero-logo.is-changing {
+  opacity: 0;
+  transform: scale(0.985);
+}
+
+@keyframes heroLogoFloat {
+  0%,
+  100% {
+    transform: translate(0, -16px);
+  }
+
+  50% {
+    transform: translate(0, 2px);
+  }
 }
 
 .subtitle {
@@ -1565,10 +1591,14 @@ a {
     margin-right: 10px;
   }
 
-  .hero-logo {
+  .hero-logo-wrap {
     width: min(100%, 960px);
     max-height: 180px;
     transform: none;
+  }
+
+  .hero-logo {
+    max-height: 180px;
   }
 
   .actions {

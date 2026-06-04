@@ -12,11 +12,23 @@ const heroLogo = document.querySelector("#heroLogo");
 const heroLogos = [
   "assets/headlogo/1.png",
   "assets/headlogo/2.png",
+  "assets/headlogo/3.png",
+  "assets/headlogo/4.png",
 ];
 
 if (heroLogo && heroLogos.length) {
-  const logoIndex = Math.floor(Math.random() * heroLogos.length);
+  let logoIndex = Math.floor(Math.random() * heroLogos.length);
   heroLogo.src = heroLogos[logoIndex];
+
+  setInterval(() => {
+    heroLogo.classList.add("is-changing");
+
+    window.setTimeout(() => {
+      logoIndex = (logoIndex + 1) % heroLogos.length;
+      heroLogo.src = heroLogos[logoIndex];
+      heroLogo.classList.remove("is-changing");
+    }, 260);
+  }, 2000);
 }
 
 const tokenDeployTimestamp = 1779697837;
