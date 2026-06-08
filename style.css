@@ -1178,6 +1178,21 @@ a {
   color: #ffffff;
 }
 
+.milestone-path article[data-step="11"] span {
+  background: #ff5c35;
+  color: #ffffff;
+}
+
+.milestone-path article[data-step="12"] span {
+  background: #00c2a8;
+  color: #070b20;
+}
+
+.milestone-path article[data-step="13"] span {
+  background: #f0ff3d;
+  color: #070b20;
+}
+
 .milestone-path p {
   margin: 0;
   color: var(--body-color);

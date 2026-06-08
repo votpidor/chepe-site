@@ -20,17 +20,36 @@ if (heroLogo && heroLogos.length) {
   let logoIndex = Math.floor(Math.random() * heroLogos.length);
   heroLogo.src = heroLogos[logoIndex];
 
-  setInterval(() => {
-    heroLogo.classList.add("is-changing");
+  preloadHeroLogos(heroLogos).then(() => {
+    setInterval(() => {
+      heroLogo.classList.add("is-changing");
 
-    window.setTimeout(() => {
-      logoIndex = (logoIndex + 1) % heroLogos.length;
-      heroLogo.src = heroLogos[logoIndex];
-      heroLogo.classList.remove("is-changing");
-    }, 260);
-  }, 2000);
+      window.setTimeout(() => {
+        logoIndex = (logoIndex + 1) % heroLogos.length;
+        heroLogo.src = heroLogos[logoIndex];
+        heroLogo.classList.remove("is-changing");
+      }, 260);
+    }, 2000);
+  });
 }
 
+function preloadHeroLogos(sources) {
+  return Promise.allSettled(
+    sources.map((source) => {
+      const image = new Image();
+      image.src = source;
+
+      if (image.decode) {
+        return image.decode().catch(() => undefined);
+      }
+
+      return new Promise((resolve) => {
+        image.onload = resolve;
+        image.onerror = resolve;
+      });
+    }),
+  );
+}
 const tokenDeployTimestamp = 1779697837;
 const tokenTotalSupply = 100000000;
 const tokenSupplyRaw = BigInt(tokenTotalSupply) * 1000000000n;
